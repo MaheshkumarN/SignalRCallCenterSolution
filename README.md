@@ -30,7 +30,7 @@
 
 - 01Start
 - 02EntitySetup
-- 03AddSignalRServices
+- 03AddSignalRServicesAndHub
 - 04SendMessages
 - 05ClientSideCode
 - 06StronglyTyped

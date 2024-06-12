@@ -17,7 +17,8 @@ public class CallsController(CallCenterDbContext context) : ControllerBase
     return Ok(calls);
   }
 
-  [HttpDelete]
+  //[HttpDelete]
+  [HttpDelete("{id}")]
   public async Task<IActionResult> Delete(int id)
   {
     try

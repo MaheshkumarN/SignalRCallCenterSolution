@@ -4,8 +4,6 @@ using SignalRCallCenterWebApp.Models;
 using SignalRCallCenterWebApp.Models.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
-ILoggerFactory loggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
-ILogger logger = new LoggerFactory().CreateLogger<Program>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -18,9 +16,10 @@ builder.Services.AddDbContext<CallCenterDbContext>((serviceProvider, cfg) => {
   // GetRequiredService will throw exception if T not found
   var dbUtility = serviceProvider.GetRequiredService<IOptions<DbUtility>>().Value;
   var EFUtility = serviceProvider.GetRequiredService<IOptions<EFUtility>>().Value;
-  
-  logger.LogInformation($"dbUtility.DbConnectionString: {dbUtility.DbConnectionString}");
-  
+  var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
+
+  logger.LogInformation($"----dbUtility.DbConnectionString: {dbUtility.DbConnectionString}----");
+
   cfg.UseSqlServer(dbUtility.DbConnectionString, sqlOptions => {
     sqlOptions.EnableRetryOnFailure(maxRetryCount: EFUtility.MaxReTryCount, maxRetryDelay: TimeSpan.FromSeconds(EFUtility.MaxReTryDelay), errorNumbersToAdd: null);
     sqlOptions.CommandTimeout(EFUtility.CommandTimeout);
